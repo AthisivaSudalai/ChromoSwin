@@ -1,0 +1,12 @@
+data/
+data_balanced/
+AutoKary2022-1/
+results/
+venv/
+venv312/
+__pycache__/
+*.pth
+*.pt
+*.ckpt
+*.pyc
+.env
