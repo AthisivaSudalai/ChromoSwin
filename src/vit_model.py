@@ -5,31 +5,20 @@ from transformers import ViTForImageClassification, ViTConfig
 def build_vit(num_classes=24, pretrained=True):
 
     if pretrained:
-        # load pretrained ViT-Base/16 from Hugging Face
-        # pretrained on ImageNet-21k — gives it a head start
         model = ViTForImageClassification.from_pretrained(
             'google/vit-base-patch16-224-in21k',
             num_labels=num_classes,
-            ignore_mismatched_sizes=True  # needed when changing num_classes
+            ignore_mismatched_sizes=True
         )
         print("Loaded pretrained ViT-Base/16 weights")
-
     else:
-        # build from scratch — useful to show WHY pretrained matters
-        config = ViTConfig(
-            image_size=224,
-            patch_size=16,
-            num_channels=3,
+        model = ViTForImageClassification.from_pretrained(
+            'google/vit-base-patch16-224-in21k',
             num_labels=num_classes,
-            hidden_size=768,
-            num_hidden_layers=12,
-            num_attention_heads=12,
-            intermediate_size=3072,
+            ignore_mismatched_sizes=True
         )
-        model = ViTForImageClassification(config)
-        print("Built ViT from scratch — no pretrained weights")
+        print("Built ViT architecture (weights loaded separately)")
 
-    # replace classifier head with dropout + linear
     model.classifier = nn.Sequential(
         nn.Dropout(p=0.3),
         nn.Linear(model.config.hidden_size, num_classes)

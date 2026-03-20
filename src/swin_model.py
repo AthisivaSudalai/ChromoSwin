@@ -12,6 +12,15 @@ def build_swin(num_classes=24, pretrained=True):
             ignore_mismatched_sizes=True
         )
         print("Loaded pretrained Swin-Tiny weights")
+    else:
+        # load architecture only — no pretrained weights
+        # used when loading our own saved weights
+        model = SwinForImageClassification.from_pretrained(
+            'microsoft/swin-tiny-patch4-window7-224',
+            num_labels=num_classes,
+            ignore_mismatched_sizes=True
+        )
+        print("Built Swin-T architecture (weights loaded separately)")
 
     model.classifier = nn.Sequential(
         nn.Dropout(p=0.3),
