@@ -1,0 +1,24 @@
+# ChromoSwin - Requirements
+# Install with: pip install -r requirements.txt
+
+# Core deep learning
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
+
+# Swin Transformer
+timm
+
+# Image processing
+Pillow
+opencv-python
+
+# Data & computation
+numpy
+scipy
+
+# Dataset download
+roboflow
+
+# Progress bars & utilities
+tqdm
+matplotlib
