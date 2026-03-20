@@ -6,7 +6,7 @@ from sklearn.metrics import f1_score
 import numpy as np
 
 def train_model(model, train_loader, val_loader,
-                lr=1e-4, epochs=50, model_name="vit"):
+                lr=1e-4, epochs=50, model_name="vit", class_weights=None):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Training on: {device}")
@@ -14,7 +14,13 @@ def train_model(model, train_loader, val_loader,
 
     optimizer = AdamW(model.parameters(), lr=lr, weight_decay=0.01)
     scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=10)
-    criterion = nn.CrossEntropyLoss()
+    # use class weights if provided — handles imbalanced dataset
+    if class_weights is not None:
+        criterion = nn.CrossEntropyLoss(
+            weight=class_weights.to(device)
+    )
+    else:
+        criterion = nn.CrossEntropyLoss()
 
     # mixed precision for speed
     scaler = torch.amp.GradScaler('cuda')

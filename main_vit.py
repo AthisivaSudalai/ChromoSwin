@@ -1,27 +1,31 @@
 # main_vit.py
 
-from src.dataset   import get_dataloaders
+from src.dataset   import get_dataloaders, get_class_weights
 from src.vit_model import build_vit
 from src.train     import train_model
 import os
 
-# THIS LINE IS THE FIX — required on Windows when using num_workers > 0
 if __name__ == '__main__':
 
     os.makedirs('results/vit', exist_ok=True)
 
-    # Step 1 — load data
+    # Step 1 — load data from full dataset
     train_loader, val_loader, test_loader = get_dataloaders(
-        data_dir='data_balanced', batch_size=32
+        data_dir='data_full', batch_size=32
     )
 
-    # Step 2 — build model
+    # Step 2 — compute class weights for imbalanced data
+    # chromosome_X and Y have fewer images so they get higher weight
+    class_weights = get_class_weights('data_full')
+
+    # Step 3 — build model
     model = build_vit(num_classes=24, pretrained=True)
 
-    # Step 3 — train
+    # Step 4 — train with class weights
     history = train_model(
         model, train_loader, val_loader,
-        lr=1e-4, epochs=50, model_name="vit"
+        lr=1e-4, epochs=50, model_name="vit",
+        class_weights=class_weights
     )
 
     print('Training complete!')

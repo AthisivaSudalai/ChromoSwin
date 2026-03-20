@@ -5,9 +5,9 @@ import random
 
 random.seed(42)
 
-IMAGES_PER_CLASS = 40
-SOURCE_DIR       = 'data/train'
-OUTPUT_DIR       = 'data_balanced'
+# ── SETTINGS ──────────────────────────────────────────────────
+SOURCE_DIR = 'data/train'
+OUTPUT_DIR = 'data_full'
 
 VALID_CLASSES = [
     'chromosome_1',  'chromosome_2',  'chromosome_3',
@@ -19,48 +19,45 @@ VALID_CLASSES = [
     'chromosome_19', 'chromosome_20', 'chromosome_21',
     'chromosome_22', 'chromosome_X',  'chromosome_Y'
 ]
+# ──────────────────────────────────────────────────────────────
 
-def copy_balanced(source_dir, output_dir, n_per_class):
 
-    n_train = int(n_per_class * 0.70)
-    n_val   = int(n_per_class * 0.15)
-    n_test  = n_per_class - n_train - n_val
+def copy_balanced(source_dir, output_dir):
 
-    print(f"Creating balanced dataset — {n_per_class} images per class")
-    print(f"Split: {n_train} train | {n_val} val | {n_test} test\n")
+    print(f"Creating full dataset — using ALL available images per class")
+    print(f"Split: 70% train | 15% val | 15% test\n")
 
     skipped = []
 
     for cls in VALID_CLASSES:
         cls_path = os.path.join(source_dir, cls)
 
-        # ── check folder exists ──────────────────────────────
+        # check folder exists
         if not os.path.exists(cls_path):
             print(f"  SKIP: {cls} — folder not found")
             skipped.append(cls)
             continue
 
-        # ── get all images in this class ─────────────────────
+        # get all images
         all_images = [
             f for f in os.listdir(cls_path)
-            if f.lower().endswith(('.jpg','.jpeg','.png','.bmp','.tif'))
+            if f.lower().endswith(('.jpg', '.jpeg', '.png', '.bmp', '.tif'))
         ]
 
-        # ── check at least 10 images exist ───────────────────
         if len(all_images) == 0:
             print(f"  SKIP: {cls} — folder is empty")
             skipped.append(cls)
             continue
 
-        if len(all_images) < n_per_class:
-            print(f"  WARNING: {cls} only has {len(all_images)} images "
-                  f"(wanted {n_per_class}) — using all {len(all_images)}")
-            selected = all_images.copy()
-        else:
-            selected = random.sample(all_images, n_per_class)
-
-        # ── shuffle and split ────────────────────────────────
+        # use ALL images — no limit
+        selected = all_images.copy()
         random.shuffle(selected)
+
+        # calculate splits from actual count
+        n_total = len(selected)
+        n_train = int(n_total * 0.70)
+        n_val   = int(n_total * 0.15)
+        n_test  = n_total - n_train - n_val  # remainder goes to test
 
         buckets = {
             'train': selected[:n_train],
@@ -68,7 +65,7 @@ def copy_balanced(source_dir, output_dir, n_per_class):
             'test':  selected[n_train + n_val:]
         }
 
-        # ── copy to output folders ───────────────────────────
+        # copy to output folders
         for split, images in buckets.items():
             dest = os.path.join(output_dir, split, cls)
             os.makedirs(dest, exist_ok=True)
@@ -78,23 +75,22 @@ def copy_balanced(source_dir, output_dir, n_per_class):
                     os.path.join(dest, img)
                 )
 
-        print(f"  {cls:20s} → {len(buckets['train'])} train | "
+        print(f"  {cls:20s} — total: {n_total:4d} "
+              f"→ {len(buckets['train'])} train | "
               f"{len(buckets['val'])} val | "
               f"{len(buckets['test'])} test")
 
-    # ── summary ──────────────────────────────────────────────
+    # summary
     processed = len(VALID_CLASSES) - len(skipped)
-    print(f"\n{'='*50}")
+    print(f"\n{'='*55}")
     print(f"DONE!")
     print(f"Classes processed : {processed} / {len(VALID_CLASSES)}")
-    print(f"Images per class  : {n_per_class}")
-    print(f"Total images      : ~{processed * n_per_class}")
-    print(f"Saved to          : {output_dir}/")
     if skipped:
         print(f"Skipped           : {skipped}")
-    print(f"{'='*50}")
+    print(f"Saved to          : {output_dir}/")
+    print(f"{'='*55}")
     print(f"\nNext — run: py main_vit.py")
 
 
 if __name__ == '__main__':
-    copy_balanced(SOURCE_DIR, OUTPUT_DIR, IMAGES_PER_CLASS)
+    copy_balanced(SOURCE_DIR, OUTPUT_DIR)

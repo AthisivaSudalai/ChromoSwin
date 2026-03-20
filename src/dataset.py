@@ -40,3 +40,25 @@ def get_dataloaders(data_dir, batch_size=32):
     print(f"Train: {len(train_data)} | Val: {len(val_data)} | Test: {len(test_data)}")
 
     return train_loader, val_loader, test_loader
+
+def get_class_weights(data_dir):
+    import torch
+    import numpy as np
+    from torchvision import datasets
+
+    # count images per class
+    train_data = datasets.ImageFolder(data_dir + '/train')
+    class_counts = np.zeros(len(train_data.classes))
+    for _, label in train_data.samples:
+        class_counts[label] += 1
+
+    # weight = total / (n_classes * count_per_class)
+    total   = class_counts.sum()
+    weights = total / (len(train_data.classes) * class_counts)
+    weights = torch.FloatTensor(weights)
+
+    print("Class weights computed:")
+    for i, (cls, w) in enumerate(zip(train_data.classes, weights)):
+        print(f"  {cls}: {w:.3f}")
+
+    return weights
