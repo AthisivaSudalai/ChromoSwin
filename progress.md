@@ -391,11 +391,11 @@ Cell 3 — Clone repo:
   %cd ChromoSwin
 
 Cell 4 — Download dataset:
-  from roboflow import Roboflow
-  rf = Roboflow(api_key="YOUR_ROBOFLOW_API_KEY")
-  project = rf.workspace("karyotypezhongxin").project("autokary2022")
-  version = project.version(1)
-  dataset = version.download("coco")
+from roboflow import Roboflow
+rf = Roboflow(api_key="YOUR_ROBOFLOW_API_KEY")
+project = rf.workspace("karyotypezhongxin").project("autokary2022")
+version = project.version(1)
+dataset = version.download("coco")
 
 Cell 5 — Prepare data:
   !python crop_chromosomes.py
@@ -403,9 +403,9 @@ Cell 5 — Prepare data:
   !python balanced_dt.py
 
 Cell 6 — Verify data:
-  import os
-  total = sum(len(files) for _, _, files in os.walk('data_full/train'))
-  print(f"Total training images: {total}")
+import os
+total = sum(len(files) for _, _, files in os.walk('data_full/train'))
+print(f"Total training images: {total}")
 
 Cell 7 — Train all 3 models:
   !python main_vit.py

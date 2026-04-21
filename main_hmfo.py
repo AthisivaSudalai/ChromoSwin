@@ -13,11 +13,11 @@ if __name__ == '__main__':
 
     # same dataset — fair comparison
     train_loader, val_loader, test_loader = get_dataloaders(
-        data_dir='data_full', batch_size=32
+        data_dir='data_balanced_200', batch_size=32
     )
 
     # same class weights
-    class_weights = get_class_weights('data_full')
+    class_weights = get_class_weights('data_balanced_200')
 
     # Phase 1 — HMFO finds best hyperparameters
     print("Phase 1: Running HMFO to find best hyperparameters...")

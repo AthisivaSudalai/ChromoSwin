@@ -11,11 +11,11 @@ if __name__ == '__main__':
 
     # same dataset as ViT — fair comparison
     train_loader, val_loader, test_loader = get_dataloaders(
-        data_dir='data_full', batch_size=32
+        data_dir='data_balanced_200', batch_size=32
     )
 
     # same class weights — identical conditions for fair comparison
-    class_weights = get_class_weights('data_full')
+    class_weights = get_class_weights('data_balanced_200')
 
     model = build_swin(num_classes=24, pretrained=True)
 
