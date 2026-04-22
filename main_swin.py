@@ -15,7 +15,7 @@ if __name__ == '__main__':
     )
 
     # same class weights — identical conditions for fair comparison
-    class_weights = get_class_weights('data_balanced_200')
+    class_weights = get_class_weights('data_full')
 
     model = build_swin(num_classes=24, pretrained=True)
 

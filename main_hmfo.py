@@ -17,7 +17,7 @@ if __name__ == '__main__':
     )
 
     # same class weights
-    class_weights = get_class_weights('data_balanced_200')
+    class_weights = get_class_weights('data_full')
 
     # Phase 1 — HMFO finds best hyperparameters
     print("Phase 1: Running HMFO to find best hyperparameters...")
