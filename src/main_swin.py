@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     # same dataset — fair comparison with ViT
     train_loader, val_loader, test_loader = get_dataloaders(
-        data_dir='data_balanced', batch_size=32
+        data_dir='data_full', batch_size=32
     )
 
     # build Swin-T model
