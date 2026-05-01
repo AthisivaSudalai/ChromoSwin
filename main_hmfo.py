@@ -11,13 +11,13 @@ if __name__ == '__main__':
 
     os.makedirs('results/swin_hmfo', exist_ok=True)
 
-    # same dataset — fair comparison
+    # same dataset — fair comparison (using preprocessed data)
     train_loader, val_loader, test_loader = get_dataloaders(
-        data_dir='data_full', batch_size=32
+        data_dir='data_preprocessed', batch_size=32
     )
 
     # same class weights
-    class_weights = get_class_weights('data_full')
+    class_weights = get_class_weights('data_preprocessed')
 
     # Phase 1 — HMFO finds best hyperparameters
     print("Phase 1: Running HMFO to find best hyperparameters...")

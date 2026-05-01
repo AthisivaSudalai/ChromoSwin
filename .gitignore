@@ -1,15 +1,190 @@
+# ============================================================
+# DATA DIRECTORIES (Large datasets - don't commit to git)
+# ============================================================
+
+# Original datasets
 data/
-data_balanced/
-AutoKary2022-1/
-results/
 data_full/
-venv/
-venv312/
-__pycache__/
+AutoKary2022-1/
+24_chromosomes_object/
+
+# Processed datasets
+data_balanced/
+data_balanced_200/
+data_improved/
+data_enhanced/
+data_preprocessed/
+
+# Kaggle dataset processing
+kaggle_processed/
+kaggle_processed_raw/
+kaggle_processed_preprocessed/
+small_dataset/
+
+# Test outputs
+test_crop_single/
+test_single_crop/
+
+# Data archives (too large for git)
+*.zip
+data_full.zip
+data.zip
+dataset.zip
+small_dataset.zip
+
+# ============================================================
+# MODEL OUTPUTS & RESULTS
+# ============================================================
+results/
+checkpoints/
+logs/
+runs/
+wandb/
 *.pth
 *.pt
 *.ckpt
-*.pyc
+*.h5
+*.pkl
+*.pickle
+
+# ============================================================
+# PYTHON
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================================
+# VIRTUAL ENVIRONMENTS
+# ============================================================
+venv/
+venv312/
+env/
+ENV/
+.venv/
+
+# ============================================================
+# IDE & EDITOR
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================
+# JUPYTER NOTEBOOKS
+# ============================================================
+.ipynb_checkpoints/
+*.ipynb
+
+# ============================================================
+# ENVIRONMENT & SECRETS
+# ============================================================
 .env
+.env.local
+*.key
+*.pem
+secrets.json
+
+# ============================================================
+# GENERATED IMAGES & VISUALIZATIONS
+# ============================================================
+*.png
+*.jpg
+*.jpeg
+*.gif
+!README*.png
+!docs/**/*.png
+!examples/**/*.png
+
+# Specific generated images
+comparison_*.png
+quality_inspection_*.png
+enhancement_preview.png
+artifact_demonstration.png
+adaptive_preprocessing_comparison.png
+clahe_cliplimit_comparison.png
+clahe_histograms.png
+xml_test_visualization.png
+kaggle_crop_samples.png
+
+# ============================================================
+# LOGS & TEMPORARY FILES
+# ============================================================
+*.log
+*.tmp
+*.temp
+*.cache
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# ============================================================
+# PROJECT SPECIFIC - TEMPORARY/WORKING FILES
+# ============================================================
+
+# Working documentation (temporary notes)
 progress.md
-data_balanced_200
+NEXT_STEPS.md
+REPOSITORY_STATUS.md
+PROCESSING_YOUR_DATASET.md
+YOUR_DATASET_READY.md
+
+# Kaggle-specific files (not needed for main project)
+KAGGLE_*.md
+kaggle_notebook.py
+kaggle_pipeline.py
+test_xml_parser.py
+test_single_karyogram.py
+sample_kaggle.xml
+
+# Analysis/utility scripts (temporary)
+check_image_quality.py
+find_duplicate_images.py
+inspect_image_quality.py
+compare_datasets.py
+remove_corrupted_images.py
+tune_clahe_cliplimit.py
+
+# Development/testing scripts
+test_mcp_connection.py
+preview_enhancement.py
+demonstrate_artifacts.py
+
+# MCP Server (development only)
+chromoswin_server.py
+
+# Kiro Settings (local IDE configuration)
+.kiro/
+
+
+
+# ============================================================
+# OS SPECIFIC
+# ============================================================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.Spotlight-V100
+.Trashes

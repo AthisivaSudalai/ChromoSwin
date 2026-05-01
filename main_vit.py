@@ -9,14 +9,14 @@ if __name__ == '__main__':
 
     os.makedirs('results/vit', exist_ok=True)
 
-    # Step 1 — load data from full dataset
+    # Step 1 — load data from preprocessed dataset (enhanced contrast & quality)
     train_loader, val_loader, test_loader = get_dataloaders(
-        data_dir='data_full', batch_size=32
+        data_dir='data_preprocessed', batch_size=32
     )
 
     # Step 2 — compute class weights for imbalanced data
     # chromosome_X and Y have fewer images so they get higher weight
-    class_weights = get_class_weights('data_full')
+    class_weights = get_class_weights('data_preprocessed')
 
     # Step 3 — build model
     model = build_vit(num_classes=24, pretrained=True)
